@@ -2,33 +2,61 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MDL_User extends CI_Model {
-    function save($nom, $email, $mdp, $office) {
-        $sql = "insert into utilisateur(nom, email, mdp, office)  values (%s, %s, %s, %s) ";
-        $sql = sprintf($sql,$this->db->escape($nom),$this->db->escape($email),$this->db->escape($mdp),$this->db->escape($office));
+    // Client
+    function saveClient($tel) {
+        $sql = "insert into client(tel)  values (%s) ";
+        $sql = sprintf($sql,$this->db->escape($tel));
         $this->db->query($sql);
+        $insert_id = $this->db->insert_id();
+        return $this->getOneClient($insert_id);
     }
 
-    public function truncate() {
-        $this->db->query('TRUNCATE utilisateur');
-    }
-
-    public function deleteById($id) {
-        $this->db->where('id', $id);
-        $this->db->delete('utilisateur');
-    }
-
-    function login($email, $mdp) {
-        $query = $this->db->get_where('utilisateur', array('email' => $email, 'mdp' => $mdp));
+    function loginClient($tel) {
+        $query = $this->db->get_where('client', array('tel' => $tel));
         $user = $query->row_array();
         return $user;
     }
 
-    function getAll(){
-        $this->db->select('*');
-        $this->db->from('utilisateur');
-        $query = $this->db->get();
-        $result = $query->result();
-        return $result;
+    public function getOneClient($id) {
+        $this->db->where('id', $id);
+        $query = $this->db->get('client'); 
+        return $query->row(); 
     }
+
+    public function getOneClientByTel($tel) {
+        $this->db->where('tel', $tel);
+        $query = $this->db->get('client'); 
+        return $query->row(); 
+    }
+
+    public function truncate() {
+        $this->db->query('TRUNCATE client');
+    }
+
+    // Admin
+    function login($email, $mdp) {
+        $query = $this->db->get_where('admin', array('email' => $email, 'mdp' => $mdp));
+        $user = $query->row_array();
+        return $user;
+    }
+
+    // public function deleteById($id) {
+    //     $this->db->where('id', $id);
+    //     $this->db->delete('utilisateur');
+    // }
+
+    // function login($email, $mdp) {
+    //     $query = $this->db->get_where('utilisateur', array('email' => $email, 'mdp' => $mdp));
+    //     $user = $query->row_array();
+    //     return $user;
+    // }
+
+    // function getAll(){
+    //     $this->db->select('*');
+    //     $this->db->from('utilisateur');
+    //     $query = $this->db->get();
+    //     $result = $query->result();
+    //     return $result;
+    // }
 }
 ?>

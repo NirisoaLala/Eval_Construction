@@ -12,7 +12,7 @@
 					<!-- menu profile quick info -->
 					<div class="profile clearfix">
 						<div class="profile_pic">
-							<img src=<?php echo base_url("assets/docs/images/img.jpg"); ?> alt="..." class="img-circle profile_img"> <span>Construction</span></a>
+							<img src=<?php echo base_url("assets/docs/images/images.png"); ?> alt="..." class="img-circle profile_img"></a>
 						</div>
 						<div class="profile_info">
 							<span>Welcome,</span>
@@ -30,19 +30,14 @@
 							<ul class="nav side-menu">
 								<li><a><i class="fa fa-edit"></i> Formulaire <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-										<li><a href="<?php echo site_url(''); ?>">Film</a></li>
+										<li><a href="<?php echo site_url('CTL_DevisClient/'); ?>">Nouveau Devis</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-table"></i> Listes <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu">
-									  <li><a href="<?php echo site_url(''); ?>">Film</a></li>
+									  <li><a href="<?php echo site_url('CTL_DevisClient/listDevisByClient'); ?>">Devis</a></li>
 									</ul>
 								</li>
-                            	<li><a><i class="fa fa-desktop"></i> Chart <span class="fa fa-chevron-down"></span></a>
-                            	    <ul class="nav child_menu">
-										<li><a href="#">Repartition par pack</a></li>
-                            	    </ul>
-                            	</li>
 							</ul>
 						</div>
 
@@ -60,7 +55,7 @@
 						<a data-toggle="tooltip" data-placement="top" title="Lock">
 							<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
 						</a>
-						<a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo site_url('CTL_User/deconnexion'); ?>">
+						<a data-toggle="tooltip" data-placement="top" title="Logout" href="<?php echo site_url('CTL_User/deconnexionClient'); ?>">
 							<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -78,10 +73,10 @@
 						<ul class=" navbar-right">
 							<li class="nav-item dropdown open" style="padding-left: 15px;">
 								<a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-									<img src="${pageContext.request.contextPath}/assets/docs/images/img.jpg" alt="">John Doe
+									<img src="<?php echo base_url("assets/docs/images/images.png"); ?>" alt="">John Doe
 								</a>
 								<div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="<?php echo site_url('CTL_User/deconnexion'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+									<a class="dropdown-item" href="<?php echo site_url('CTL_User/deconnexionClient'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
 								</div>
 							</li>
 						</ul>
