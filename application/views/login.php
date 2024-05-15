@@ -46,7 +46,7 @@
               </div>
               <div>
                 <button type="submit" class="btn btn-default submit">Log in</button>
-                <a class="reset_pass" href="#">Lost your password?</a>
+                <a class="reset_pass" href="<?php echo site_url("CTL_User/index") ?>">Customer</a>
               </div>
 
               <div class="clearfix"></div>

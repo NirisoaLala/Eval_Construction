@@ -2,43 +2,24 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CTL_User extends CI_Controller {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
     public function __construct() {
         parent::__construct();
-		$this->load->model('MDL_User'); 
+		$this->load->model('MDL_User');
+        $this->load->model('MDL_Temp');
         $this->load->library('session');
     }
 
-	public function maVue($page, $data){
-        if (isset($_SESSION['user'])) {
-            $office = $_SESSION['user']['office'];
+    // Admin
+    public function myAdmin($page, $data){
+        if (isset($_SESSION['admin'])) {
             $content = array('page' => $page, 'data' => $data);
-            if($office == 5){
-                $this->load->view('inc/page_client', $content);
-            }
             $this->load->view('inc/page_admin', $content);
         } else {
-            redirect('CTL_User/');
+            redirect('welcome');
         }
     }
 
-	public function index() { 
+	public function indexAdmin() { 
 		$this->load->view('login');	
 	}	
 	
@@ -48,8 +29,8 @@ class CTL_User extends CI_Controller {
         $user = $this->MDL_User->login($email, $mdp);
         
         if ($user){
-            $this->session->set_userdata('user', $user);
-            redirect('CTL_User/accueil');
+            $this->session->set_userdata('admin', $user);
+            redirect('CTL_DevisAdmin/dashboard');
             return;
         }
         else{
@@ -58,17 +39,53 @@ class CTL_User extends CI_Controller {
         }   
     }
 
-	public function deconnexion()	{
-        $this->session->unset_userdata('user');
-        redirect('CTL_User/');
-    }		
+    public function deconnexionAdmin()	{
+        $this->session->unset_userdata('admin');
+        redirect('CTL_User/indexAdmin');
+    }
 
-	public function accueil() {
-		$this->maVue('/form_reinit', array());
+    public function reinit() {
+		$this->myAdmin('/form_reinit', array());
 	}
 
     public function reinitialiser() {
-        $this->MDL_User->truncate();
-		redirect('CTL_User/accueil');
+        $this->MDL_Temp->truncate();
+		redirect('CTL_User/reinit');
 	}
+
+    // Client
+    public function myClient($page, $data){
+        if (isset($_SESSION['client'])) {
+            $content = array('page' => $page, 'data' => $data);
+            $this->load->view('inc/page_client', $content);
+        } else {
+            redirect('welcome');
+        }
+    }
+
+    public function index() { 
+		$this->load->view('login_client');	
+	}	
+	
+	public function loginClient(){
+        $tel = $this->input->post('tel');
+        $user = $this->MDL_User->loginClient($tel);
+        
+        if ($user){
+            $this->session->set_userdata('client', $user);
+            redirect('CTL_DevisClient/listDevisByClient');
+            return;
+        }
+        else{
+            $client = $this->MDL_User->saveClient($tel);
+            $this->session->set_userdata('client', $client);
+            redirect('CTL_DevisClient/');
+            return;
+        }   
+    }
+
+	public function deconnexionClient()	{
+        $this->session->unset_userdata('client');
+        redirect('CTL_User/index');
+    }		
 }
